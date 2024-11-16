@@ -15,6 +15,8 @@
 1. **UserController.java**
    - `/profile` API: JWT 토큰을 검증하여 로그인된 사용자만 접근 가능하도록 구현합니다.
    - `/admin` API: 관리자 권한 (`ROLE_ADMIN`)이 있는 사용자만 접근 가능하도록 구현합니다.
+2. (선택) AccessToken 만료 시 RefreshToken 발급
+3. (선택) ArgumentResolver 이용 개선
 
 ## Postman 테스트 예시
 1. **로그인 요청**
