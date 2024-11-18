@@ -11,7 +11,10 @@ public class UserController {
 
     @GetMapping("/profile")
     public ResponseEntity<String> getProfile(HttpServletRequest request) {
-        // TODO : 로그인 한 사용자면 username 이용해 "Hello, {username}" 반환하기
+        String username = (String) request.getAttribute("username");
+        if (username != null) {
+            return ResponseEntity.ok("Hello, " + username);
+        }
         return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("Unauthorized");
     }
 
