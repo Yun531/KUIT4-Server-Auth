@@ -22,9 +22,6 @@ public class UserController {
     @GetMapping("/admin")
     public ResponseEntity<String> getAdmin(HttpServletRequest request) {
         String role = (String) request.getAttribute("role");
-        if ("ROLE_ADMIN".equals(role)) {
-            return ResponseEntity.ok("Welcome, Admin!");
-        }
-        return ResponseEntity.status(HttpStatus.FORBIDDEN).body("Forbidden");
+        return userService.getAdmin(role);
     }
 }

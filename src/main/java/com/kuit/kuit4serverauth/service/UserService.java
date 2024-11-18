@@ -13,4 +13,11 @@ public class UserService {
         }
         return ResponseEntity.ok("Hello, " + username);
     }
+
+    public ResponseEntity<String> getAdmin(String role) {
+        if ("ROLE_ADMIN".equals(role)) {
+            return ResponseEntity.ok("Welcome, Admin!");
+        }
+        throw new CustomException(ErrorCode.FORBIDDEN_ACCESS);
+    }
 }
