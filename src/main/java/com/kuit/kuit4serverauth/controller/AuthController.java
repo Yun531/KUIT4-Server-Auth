@@ -19,7 +19,7 @@ public class AuthController {
     private final UserRepository userRepository;
     private final JwtUtil jwtUtil;
 
-    public AuthController(UserRepository userRepository, JwtUtil jwtUtil) {
+    public AuthController(UserRepository userRepository, JwtUtil jwtUtil) {         //todo dto 로 감싸는 형식으로 리펙토링
         this.userRepository = userRepository;
         this.jwtUtil = jwtUtil;
     }
