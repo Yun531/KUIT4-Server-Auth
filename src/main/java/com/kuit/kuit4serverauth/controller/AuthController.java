@@ -1,5 +1,6 @@
 package com.kuit.kuit4serverauth.controller;
 
+import com.kuit.kuit4serverauth.dto.LoginRequest;
 import com.kuit.kuit4serverauth.exception.CustomException;
 import com.kuit.kuit4serverauth.exception.ErrorCode;
 import com.kuit.kuit4serverauth.model.User;
@@ -19,15 +20,15 @@ public class AuthController {
     private final UserRepository userRepository;
     private final JwtUtil jwtUtil;
 
-    public AuthController(UserRepository userRepository, JwtUtil jwtUtil) {         //todo dto 로 감싸는 형식으로 리펙토링
+    public AuthController(UserRepository userRepository, JwtUtil jwtUtil) {
         this.userRepository = userRepository;
         this.jwtUtil = jwtUtil;
     }
 
     @PostMapping("/login")
-    public ResponseEntity<Map<String, String>> login(@RequestBody Map<String, String> credentials) {
-        String username = credentials.get("username");
-        String password = credentials.get("password");
+    public ResponseEntity<Map<String, String>> login(@RequestBody LoginRequest loginRequest) {      //dto 로 감싸는 형식으로 리펙토링
+        String username = loginRequest.getUsername();
+        String password = loginRequest.getPassword();
 
         User user = userRepository.findByUsername(username);
         if (user == null || !user.getPassword().equals(password)) {
