@@ -25,7 +25,7 @@ public class AuthController {
     }
 
     @PostMapping("/login")
-    public ResponseEntity<Map<String, String>> login(@RequestBody Map<String, String> credentials) {
+    public ResponseEntity<Map<String, String>> login(@RequestBody Map<String, String> credentials) {  //todo dto 로 감싸는 형식으로 리펙토링
         String username = credentials.get("username");
         String password = credentials.get("password");
 

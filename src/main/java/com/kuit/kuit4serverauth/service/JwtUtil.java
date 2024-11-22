@@ -11,7 +11,7 @@ import java.util.Date;
 
 @Component
 public class JwtUtil {
-    private final String secret = "mysecretkey";
+    private final String secret = "mysecretkey";   //todo 야멜 파일 환경변수 해서 가져오는 방식으로 수정
     private final long expirationMs = 3600000; // 1 hour
 
     public String generateToken(String username, String role) {
