@@ -1,6 +1,6 @@
 package com.kuit.kuit4serverauth.exception;
 
-public class CustomException extends RuntimeException {
+public class CustomException extends RuntimeException {             //사용자 정의 예외를 처리하기 위한 클래스.
     private final ErrorCode errorCode;
 
     public CustomException(ErrorCode errorCode) {

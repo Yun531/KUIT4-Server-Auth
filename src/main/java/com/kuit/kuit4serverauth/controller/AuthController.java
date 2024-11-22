@@ -15,7 +15,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 @RestController
-public class AuthController {
+public class AuthController {                           //로그인 요청을 처리하고 JWT 토큰을 발급
     private final UserRepository userRepository;
     private final JwtUtil jwtUtil;
 
@@ -24,6 +24,8 @@ public class AuthController {
         this.jwtUtil = jwtUtil;
     }
 
+    //데이터베이스에서 사용자를 조회하고 비밀번호가 일치하면 JWT 토큰을 생성 및 반환.
+    //비밀번호가 일치하지 않거나 사용자가 없으면 CustomException 발생.
     @PostMapping("/login")
     public ResponseEntity<Map<String, String>> login(@RequestBody Map<String, String> credentials) {  //todo dto 로 감싸는 형식으로 리펙토링
         String username = credentials.get("username");

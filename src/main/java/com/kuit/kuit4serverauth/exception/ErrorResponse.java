@@ -1,9 +1,9 @@
 package com.kuit.kuit4serverauth.exception;
 
-public class ErrorResponse {
-    private int status;
-    private String message;
-    private long timestamp;
+public class ErrorResponse {            //에러 응답을 표준화하기 위한 클래스
+    private int status;         //HTTP 상태 코드
+    private String message;     //오류 메시지
+    private long timestamp;     //오류 발생 시각
 
     public ErrorResponse(int status, String message) {
         this.status = status;

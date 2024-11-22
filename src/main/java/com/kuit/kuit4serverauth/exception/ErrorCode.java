@@ -1,6 +1,6 @@
 package com.kuit.kuit4serverauth.exception;
 
-public enum ErrorCode {
+public enum ErrorCode {             //애플리케이션 전역에서 사용할 에러 코드 및 메시지를 정의
     INVALID_USERNAME_OR_PASSWORD(401, "Invalid username or password"),
     INVALID_TOKEN(401, "Invalid or expired token"),
     MISSING_AUTH_HEADER(401, "Missing or invalid Authorization header"),

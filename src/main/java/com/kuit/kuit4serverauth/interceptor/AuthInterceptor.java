@@ -10,13 +10,16 @@ import org.springframework.stereotype.Component;
 import org.springframework.web.servlet.HandlerInterceptor;
 
 @Component
-public class AuthInterceptor implements HandlerInterceptor {
+public class AuthInterceptor implements HandlerInterceptor {            //요청 처리 전 JWT 토큰의 유효성을 검증하는 인터셉터
     private final JwtUtil jwtUtil;
 
     public AuthInterceptor(JwtUtil jwtUtil) {
         this.jwtUtil = jwtUtil;
     }
 
+    //요청 헤더의 Authorization에서 토큰을 추출.
+    //토큰을 검증하고, 유효한 경우 요청에 username과 role을 설정.
+    //인증 실패 시 CustomException 발생.
     @Override
     public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) throws Exception {
         String authHeader = request.getHeader("Authorization");
