@@ -13,6 +13,6 @@ spring:
       path: /h2-console
 
 jwt:
-  secret: mysecretkey
+  secret: "bXlzZWNyZXRrZXlteXNlY3JldGtleW15c2VjcmV0a2V5"
   expiration: 3600000
 
