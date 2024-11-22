@@ -17,11 +17,17 @@ public class JwtUtil {
     //private final String secret = "mysecretkey";  > 서명키가 너무 짧아서 문제 발생
     //private final Key secret = Keys.secretKeyFor(SignatureAlgorithm.HS256);   //고정된 키를 반복해서 재사용 하는 방법은 아님
 
-    private final SecretKey secret;            //YAML 파일 환경변수 해서 가져오는 방식으로 수정
-    private final long expirationMs = 3600000; // 1 hour
+    private final SecretKey secret;             // YAML 파일 환경변수 해서 가져오는 방식으로 수정
+    private final long expirationMs;            // 1 hour
+    private final long refreshExpirationMs;     // 1 day
 
-    public JwtUtil(@Value("${jwt.secret}") String secret) {             //생성자에서 @Value을 사용해서 값 넣어줌
+
+    public JwtUtil(@Value("${jwt.secret}") String secret,
+                   @Value("${jwt.expiration}") long expirationMs,
+                   @Value("${jwt.refresh-expiration}") long refreshExpirationMs) {             //생성자에서 @Value을 사용해서 값 넣어줌
         this.secret = Keys.hmacShaKeyFor(secret.getBytes());
+        this.expirationMs = expirationMs;
+        this.refreshExpirationMs = refreshExpirationMs;
     }
 
     public String generateToken(String username, String role) {
@@ -30,6 +36,15 @@ public class JwtUtil {
                 .claim("role", role)
                 .setIssuedAt(new Date())
                 .setExpiration(new Date(System.currentTimeMillis() + expirationMs))
+                .signWith(SignatureAlgorithm.HS256, secret)
+                .compact();
+    }
+
+    public String generateRefreshToken(String username) {
+        return Jwts.builder()
+                .setSubject(username)
+                .setIssuedAt(new Date())
+                .setExpiration(new Date(System.currentTimeMillis() + refreshExpirationMs))
                 .signWith(SignatureAlgorithm.HS256, secret)
                 .compact();
     }

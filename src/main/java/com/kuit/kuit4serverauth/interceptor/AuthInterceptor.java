@@ -23,6 +23,7 @@ public class AuthInterceptor implements HandlerInterceptor {
         if (authHeader != null && authHeader.startsWith("Bearer ")) {
             String token = authHeader.substring(7);
             Claims claims = jwtUtil.validateToken(token);
+
             request.setAttribute("username", claims.getSubject());
             request.setAttribute("role", claims.get("role"));
             return true;

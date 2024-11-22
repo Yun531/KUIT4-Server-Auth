@@ -1,12 +1,13 @@
 package com.kuit.kuit4serverauth.controller;
 
 import com.kuit.kuit4serverauth.dto.LoginRequest;
+import com.kuit.kuit4serverauth.dto.TokenResponse;
 import com.kuit.kuit4serverauth.exception.CustomException;
 import com.kuit.kuit4serverauth.exception.ErrorCode;
 import com.kuit.kuit4serverauth.model.User;
 import com.kuit.kuit4serverauth.repository.UserRepository;
 import com.kuit.kuit4serverauth.service.JwtUtil;
-import org.springframework.http.HttpStatus;
+import io.jsonwebtoken.Claims;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -35,9 +36,26 @@ public class AuthController {
             throw new CustomException(ErrorCode.INVALID_USERNAME_OR_PASSWORD);
         }
 
-        String token = jwtUtil.generateToken(user.getUsername(), user.getRole());
-        Map<String, String> response = new HashMap<>();
-        response.put("token", token);
+        String accessToken = jwtUtil.generateToken(user.getUsername(), user.getRole());
+        String refreshToken = jwtUtil.generateRefreshToken(user.getUsername());
+
+        Map<String, String> tokens = new HashMap<>();
+        tokens.put("accessToken", accessToken);
+        tokens.put("refreshToken", refreshToken);
+
+        return ResponseEntity.ok(tokens);
+    }
+
+    @PostMapping("/refresh-token")
+    public ResponseEntity<TokenResponse> refreshToken(@RequestBody Map<String, String> tokens) {
+        String refreshToken = tokens.get("refreshToken");
+
+        Claims claims = jwtUtil.validateToken(refreshToken);
+        String username = claims.getSubject();
+
+        String newAccessToken = jwtUtil.generateToken(username, (String)claims.get("role"));
+        TokenResponse response = new TokenResponse(newAccessToken);
+
         return ResponseEntity.ok(response);
     }
 }
