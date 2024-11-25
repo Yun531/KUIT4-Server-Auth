@@ -37,6 +37,8 @@ public class AuthController {
 
         String accessToken = jwtUtil.generateToken(user.getUsername(), user.getRole());
         String refreshToken = jwtUtil.generateRefreshToken(user.getUsername());
+        //캐시에 refreshToken 저장, 저장구조에 들어갔다 오는게 성능에 영향이 큼 > refreshToken 자체는 접근을 많이 안해서 성능에 그나마 도움
+        //쿠키에 넣으면 안되는 이유 확실하게
 
         LoginRes loginRes = new LoginRes(accessToken, refreshToken);
 
