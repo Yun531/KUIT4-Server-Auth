@@ -5,12 +5,12 @@ import lombok.Setter;
 
 @Getter
 @Setter
-public class LoginResponse {
-    private String accessToken;
+public class RefreshTokenReq {
     private String refreshToken;
 
-    public LoginResponse(String accessToken, String refreshToken) {
-        this.accessToken = accessToken;
+    public RefreshTokenReq() {}
+
+    public RefreshTokenReq(String refreshToken) {
         this.refreshToken = refreshToken;
     }
 }

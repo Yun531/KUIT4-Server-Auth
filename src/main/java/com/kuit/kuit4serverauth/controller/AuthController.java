@@ -1,7 +1,9 @@
 package com.kuit.kuit4serverauth.controller;
 
-import com.kuit.kuit4serverauth.dto.LoginRequest;
-import com.kuit.kuit4serverauth.dto.TokenResponse;
+import com.kuit.kuit4serverauth.dto.LoginReq;
+import com.kuit.kuit4serverauth.dto.LoginRes;
+import com.kuit.kuit4serverauth.dto.RefreshTokenReq;
+import com.kuit.kuit4serverauth.dto.RefreshTokenRes;
 import com.kuit.kuit4serverauth.exception.CustomException;
 import com.kuit.kuit4serverauth.exception.ErrorCode;
 import com.kuit.kuit4serverauth.model.User;
@@ -12,9 +14,6 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
-
-import java.util.HashMap;
-import java.util.Map;
 
 @RestController
 public class AuthController {
@@ -27,9 +26,9 @@ public class AuthController {
     }
 
     @PostMapping("/login")
-    public ResponseEntity<Map<String, String>> login(@RequestBody LoginRequest loginRequest) {      //dto 로 감싸는 형식으로 리펙토링
-        String username = loginRequest.getUsername();
-        String password = loginRequest.getPassword();
+    public ResponseEntity<LoginRes> login(@RequestBody LoginReq loginReq) {      //dto 로 감싸는 형식으로 리펙토링
+        String username = loginReq.getUsername();
+        String password = loginReq.getPassword();
 
         User user = userRepository.findByUsername(username);
         if (user == null || !user.getPassword().equals(password)) {
@@ -39,22 +38,20 @@ public class AuthController {
         String accessToken = jwtUtil.generateToken(user.getUsername(), user.getRole());
         String refreshToken = jwtUtil.generateRefreshToken(user.getUsername());
 
-        Map<String, String> tokens = new HashMap<>();
-        tokens.put("accessToken", accessToken);
-        tokens.put("refreshToken", refreshToken);
+        LoginRes loginRes = new LoginRes(accessToken, refreshToken);
 
-        return ResponseEntity.ok(tokens);
+        return ResponseEntity.ok(loginRes);
     }
 
     @PostMapping("/refresh-token")
-    public ResponseEntity<TokenResponse> refreshToken(@RequestBody Map<String, String> tokens) {
-        String refreshToken = tokens.get("refreshToken");
+    public ResponseEntity<RefreshTokenRes> refreshToken(@RequestBody RefreshTokenReq refreshTokenReq) {
+        String refreshToken = refreshTokenReq.getRefreshToken();
 
         Claims claims = jwtUtil.validateToken(refreshToken);
         String username = claims.getSubject();
 
         String newAccessToken = jwtUtil.generateToken(username, (String)claims.get("role"));
-        TokenResponse response = new TokenResponse(newAccessToken);
+        RefreshTokenRes response = new RefreshTokenRes(newAccessToken);
 
         return ResponseEntity.ok(response);
     }
