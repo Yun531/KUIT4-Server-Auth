@@ -1,5 +1,6 @@
 package com.kuit.kuit4serverauth.controller;
 
+import com.kuit.kuit4serverauth.dto.UserDetail;
 import com.kuit.kuit4serverauth.service.UserService;
 import jakarta.servlet.http.HttpServletRequest;
 import lombok.RequiredArgsConstructor;
@@ -14,14 +15,12 @@ public class UserController {
     private final UserService userService;
 
     @GetMapping("/profile")
-    public ResponseEntity<String> getProfile(HttpServletRequest request) {
-        String username = (String) request.getAttribute("username");
-        return userService.getProfile(username);
+    public ResponseEntity<String> getProfile(UserDetail userDetail) {
+        return userService.getProfile(userDetail.getUsername());
     }
 
     @GetMapping("/admin")
-    public ResponseEntity<String> getAdmin(HttpServletRequest request) {
-        String role = (String) request.getAttribute("role");
-        return userService.getAdmin(role);
+    public ResponseEntity<String> getAdmin(UserDetail userDetail) {
+        return userService.getAdmin(userDetail.getRole());
     }
 }
