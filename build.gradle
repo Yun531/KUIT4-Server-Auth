@@ -29,8 +29,8 @@ dependencies {
     // Spring Boot Starter JDBC
     implementation 'org.springframework.boot:spring-boot-starter-jdbc'
 
-    // H2
-    runtimeOnly 'com.h2database:h2'
+    // MySQL Driver
+    runtimeOnly 'mysql:mysql-connector-java:8.0.33'
 
     // JWT (Java JSON Web Token)
     implementation 'io.jsonwebtoken:jjwt-api:0.11.5'
