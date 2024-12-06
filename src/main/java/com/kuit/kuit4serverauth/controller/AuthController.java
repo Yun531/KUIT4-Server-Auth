@@ -42,7 +42,7 @@ public class AuthController {
 
         LoginRes loginRes = new LoginRes(accessToken, refreshToken);
 
-        return ResponseEntity.ok(loginRes);
+        return ResponseEntity.ok(loginRes);         //JSON으로 응답, ResponseEntity : HTTP 응답의 상태 코드, 헤더, 바디를 포함한 응답 전체를 정의하는 객체
     }
 
     @PostMapping("/refresh-token")
