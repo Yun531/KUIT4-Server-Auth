@@ -32,6 +32,7 @@ public class UserService {
 
     public List<FrequentStoreResponse> getFrequentStores(Long userId) {
         return userRepository.findFrequentStores(userId);
+        //어ㅏㄱ
     }
 
 
